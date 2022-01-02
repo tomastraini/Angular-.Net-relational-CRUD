@@ -1,0 +1,130 @@
+<div class="position-absolute top-100 start-100 translate-middle ml-0 bg-danger" style="position: absolute; width: 1110px;">
+    <H1 class="text-white" style="margin-left: 350px;">ABM de localidades<img src="favicon.ico" alt=""></H1>
+</div>
+<div class="mt-5 ml-2" style="position: absolute; top: 25px; width: 1050px;">
+    <button class="btn btn-primary float-right mb-2" data-toggle="modal" data-target="#ModalCargarLocalidades">
+        <i class="fa fa-plus-circle" aria-hidden="true"></i> Cargar localidad
+    </button>
+    <form class="form-inline">
+        <div class="form-group mx-sm-3 mb-2">
+        
+          
+          <input  type="text" class="form-control" ng-model="buscarLocalidad"  [(ngModel)]="buscarLocalidad" name="buscarLocalidad" mdbInput placeholder="Buscar">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Buscar <i class="fa fa-search" aria-hidden="true"></i></button>
+      </form>
+    <table mdbTable  class="table table-bordered">
+        <thead class="text-white bg-dark">
+            <tr>
+                <th *ngFor="let e of col" scope="col" class="text-center">{{e}}</th>
+                <th scope="col" class="text-center">Modificar</th>
+                <th scope="col" class="text-center">Borrar</th>
+            </tr>
+        </thead>
+        <tbody class="text-black bg-light">
+            <tr *ngFor="let x of localidad | tableFilterLocalidad: buscarLocalidad">
+                <td scope="row" class="text-center">
+                    {{x.cp}}
+                </td>
+                <td class="text-center">
+                    {{x.localidad}}
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-success" data-toggle="modal" data-target="#ModalModificarLocalidades"  (click)="modifClick(x.cp, x.localidad)"><i class="fa fa-pencil" aria-hidden="true"></i> Editar</button>
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-danger" data-target="#ModalborrarLocalidades" (click)="borrClick(x.cp)"  data-toggle="modal"><i class="fa fa-trash" aria-hidden="true"></i> Borrar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>   
+</div>
+
+
+<! ––       Modal cargar            ––> 
+
+<div class="modal fade" id="ModalCargarLocalidades" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Cargar clientes</h5>
+        </div>
+        <form #postAgregarLoca="ngForm" (ngSubmit)= "postAgregarLoc(postAgregarLoca.value)">
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label>CP</label>
+                    <input type="text" class="form-control" ngModel required name="CPAgregar" placeholder="Código postal" id="CPAgregar">
+                </div>
+
+                <div class="mb-3">
+                    <label>Localidad</label>
+                    <input type="text" class="form-control" ngModel required name="LocalidadAgregar" placeholder="Localidad" id="LocalidadAgregar">
+                </div>
+            </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary ">Cargar!</button>
+        </div>
+    </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    
+</script>
+
+                                                <! ––       Modal editar            ––> 
+
+<div class="modal fade" id="ModalModificarLocalidades" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+        <div class="modal-header">
+            <h5 class="modal-title text-center" id="exampleModalLabel">Modificar tarjetas cargadas</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <form #modifLoc="ngForm" (ngSubmit)= "ModificarLocalidad(modifLoc.value)">
+            <div class="modal-body">
+                <input type="text" [(ngModel)]="cpm"  class="form-control"required name="cpmodif" id="locmodif">
+                <div class="mb-3">
+                    <label>Localidad</label>
+                    <input type="text" class="form-control" [(ngModel)]="localidadm" required   name="locNombre" id="locNombre" placeholder="Nombre">
+                </div>
+            </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-warning">Modificar!</button>
+        </div>
+    </form>
+        </div>
+    </div>
+</div>
+
+                                            <! ––       Modal borrar            ––> 
+
+
+<div class="modal fade" id="ModalborrarLocalidades" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+        <div class="modal-header">
+            <h5 class="modal-title text-center" id="exampleModalLabel">Borrar localidad</h5>
+        </div>
+        <label class="text-center">Seguro que quiere borrar?</label>
+        <form #borrarLocalidad="ngForm"  (ngSubmit)= "borrarLocalidades(borrarLocalidad.value)">
+            <div class="modal-body">
+               
+                <input type="hidden" class="form-control" [(ngModel)]="borrCP"  required  name="cpborr" id="cpborr">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+                <button type="submit" class="btn btn-danger">borrar!</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>                                            

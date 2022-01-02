@@ -1,0 +1,158 @@
+<div class="position-absolute top-100 start-100 translate-middle ml-0 bg-danger" style="position: absolute; width: 1110px;">
+    <H1 class="text-white" style="margin-left: 350px;">ABM de clientes<img src="favicon.ico" alt=""></H1>
+</div>
+
+
+<div class="mt-5 ml-2" style="position: absolute; top: 25px; width: 1050px;">
+    <button class="btn btn-primary float-right mb-2" data-toggle="modal" data-target="#ModalCargarClientes">
+        <i class="fa fa-plus-circle" aria-hidden="true"></i> Cargar cliente
+    </button>
+    <form class="form-inline">
+        <div class="form-group mx-sm-3 mb-2">
+        
+          
+          <input  type="text" class="form-control" ng-model="busquedavalue"  [(ngModel)]="busquedavalue" name="busquedavalue" mdbInput placeholder="Buscar">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Buscar <i class="fa fa-search" aria-hidden="true"></i></button>
+      </form>
+    <table mdbTable  class="table table-bordered">
+        <thead class="text-white bg-dark">
+            <tr>
+                <th *ngFor="let e of col" scope="col" class="text-center">{{e}}</th>
+                <th scope="col" class="text-center">Modificar</th>
+                <th scope="col" class="text-center">Borrar</th>
+            </tr>
+        </thead>
+        <tbody class="text-black bg-light">
+            <tr *ngFor="let x of cli | tableFilter: busquedavalue">
+                <td scope="row" class="text-center">
+                    {{x.id_cliente}}
+                </td>
+                <td class="text-center">
+                    {{x.razon_social}}
+                </td>
+                <td class="text-center">
+                    {{x.telefono}}
+                </td>
+                <td class="text-center">
+                    {{  x.cp }}
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-success" data-toggle="modal" data-target="#ModalModificarClientes" (click)="modifClick(x.id_cliente, x.razon_social, x.telefono, x.cp)"><i class="fa fa-pencil" aria-hidden="true"></i> Editar</button>
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-danger" data-target="#ModalborrarClientes"  data-toggle="modal" (click)="borrClick(x.id_cliente)"><i class="fa fa-trash" aria-hidden="true"></i> Borrar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>   
+</div>
+
+<! ––       Modal cargar            ––> 
+
+<div class="modal fade" id="ModalCargarClientes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Cargar clientes</h5>
+        </div>
+        <form #postAgregar="ngForm" (ngSubmit)= "postAgregarCli(postAgregar.value)">
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label>Nombre de cliente</label>
+                    <input type="text" class="form-control" ngModel required name="nombrecli" placeholder="Nombre" id="nombrecli">
+                </div>
+
+                <div class="mb-3">
+                    <label>Telefono</label>
+                    <input type="text" class="form-control" ngModel required name="telcli" placeholder="Teléfono" id="telcli">
+                </div>
+
+                <div class="form-group">
+                    <label for="cpcli">Localidad</label>
+                    <select class="form-control" required name="cpcli" id="cpcli">
+                      <option selected disabled>Localidades</option>
+                      <option *ngFor="let y of loc" id="cpop" name="cpop" value={{y.cp}}>{{y.localidad}}</option>
+                    </select>
+                </div>
+            </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary ">Cargar!</button>
+        </div>
+    </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    
+</script>
+
+                                                <! ––       Modal editar            ––> 
+
+<div class="modal fade" id="ModalModificarClientes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+        <div class="modal-header">
+            <h5 class="modal-title text-center" id="exampleModalLabel">Modificar tarjetas cargadas</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <form #modifCli="ngForm" (ngSubmit)= "ModificarCliente(modifCli.value)">
+            <div class="modal-body">
+                <input type="hidden" [(ngModel)]="cliId"  class="form-control"required name="idClienm" id="idClienm">
+                <div class="mb-3">
+                    <label>Nombre de cliente</label>
+                    <input type="text" class="form-control" [(ngModel)]="cliNombre" required   name="cliNombrem" id="cliNombrem" placeholder="Nombre">
+                </div>
+
+                <div class="mb-3">
+                    <label>Telefono</label>
+                    <input type="text" class="form-control" [(ngModel)]="cliTelefono" required  name="cliTelefonom" id="cliTelefono" placeholder="Telefono">
+                </div>
+
+                <div class="form-group">
+                    <label for="cpcli">Localidad</label>
+                    <select class="form-control" required [(ngModel)]='selectedCliLoc' onchange="cosika()" name="cpclikm" id="cpclikm">
+                      <option *ngFor="let y of loc" id="cpopk" name="cpopk" value={{y.cp}}>{{y.localidad}}</option>
+                    </select>
+                </div>
+            </div>
+        
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-warning">Modificar!</button>
+        </div>
+    </form>
+        </div>
+    </div>
+</div>
+
+                                            <! ––       Modal borrar            ––> 
+
+
+<div class="modal fade" id="ModalborrarClientes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+        <div class="modal-header">
+            <h5 class="modal-title text-center" id="exampleModalLabel">Borrar clientes</h5>
+        </div>
+        <label class="text-center">Seguro que quiere borrar?</label>
+        <form #borrarDato="ngForm"  (ngSubmit)= "borrarCliente(borrarDato.value)">
+            <div class="modal-body">
+               
+                <input type="hidden" class="form-control" [(ngModel)]="borrid"  required  name="idcliente" id="idcliente">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+                <button type="submit" class="btn btn-danger">borrar!</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>                                            

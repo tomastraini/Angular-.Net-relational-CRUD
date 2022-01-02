@@ -1,0 +1,161 @@
+<div class="position-absolute top-100 start-100 translate-middle ml-0 bg-danger" style="position: absolute; width: 1110px;">
+    <H1 class="text-white" style="margin-left: 350px;">ABM de usuarios autorizados<img src="favicon.ico" alt=""></H1>
+</div>
+<div class="mt-5 ml-2" style="position: absolute; top: 25px; width: 1050px;">
+    <button class="btn btn-primary float-right mb-2" data-toggle="modal" data-target="#ModalCargarUsuarios">
+        <i class="fa fa-plus-circle" aria-hidden="true"></i> Cargar usuario
+    </button>
+    <form class="form-inline">
+        <div class="form-group mx-sm-3 mb-2">
+        
+          
+          <input  type="text" class="form-control" ng-model="buscarUsuario"  [(ngModel)]="buscarUsuario" name="buscarUsuario" mdbInput placeholder="Buscar">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Buscar <i class="fa fa-search" aria-hidden="true"></i></button>
+      </form>
+    <table mdbTable  class="table table-bordered">
+        <thead class="text-white bg-dark">
+            <tr>
+                <th *ngFor="let e of col" scope="col" class="text-center">{{e}}</th>
+                <th scope="col" class="text-center">Modificar</th>
+                <th scope="col" class="text-center">Borrar</th>
+            </tr>
+        </thead>
+        <tbody class="text-black bg-light">
+            <tr *ngFor="let x of usuarios | tableFilterUsuarios: buscarUsuario">
+                <td scope="row" class="text-center">
+                    {{x.id_usuario}}
+                </td>
+                <td class="text-center">
+                    {{x.usuario}}
+                </td>
+                <td class="text-center">
+                    <a style="visibility: hidden;">{{x.pass}}</a>   
+                </td>
+                <td class="text-center">
+                    {{x.permiso}}
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-success" data-toggle="modal" data-target="#ModalModificarUsuarios"  (click)="modifClick(x.id_usuario, x.usuario, x.pass, x.permiso)"><i class="fa fa-pencil" aria-hidden="true"></i> Editar</button>
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-danger" data-target="#ModalborrarUsuarios" (click)="borrClick(x.id_usuario)"  data-toggle="modal"><i class="fa fa-trash" aria-hidden="true"></i> Borrar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>   
+</div>
+
+
+<! ––       Modal cargar            ––> 
+
+<div class="modal fade" id="ModalCargarUsuarios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Cargar clientes</h5>
+        </div>
+        <form #postAgregarUSU="ngForm" (ngSubmit)= "postAgregarUS(postAgregarUSU.value)">
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label>Usuario</label>
+                    <input type="text" class="form-control" ngModel required placeholder="Nombre de usuario" name="USagregar" id="USagregar">
+                </div>
+
+                <div class="mb-3">
+                    <label>Contraseña</label>
+                    <input type="password" class="form-control" ngModel required placeholder="Contraseña" name="ContraseUS" id="ContraseUS">
+                </div>
+
+                <div class="mb-3">
+                    <label>Permiso</label>
+                    <select class="form-control" required name="permisUsCS" ngModel id="permisUsCS">
+                        <option value="" disabled selected>Permisos</option>
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
+                </div>
+            </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary ">Cargar!</button>
+        </div>
+    </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+</script>
+
+                                                <! ––       Modal editar            ––> 
+
+<div class="modal fade" id="ModalModificarUsuarios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+        <div class="modal-header">
+            <h5 class="modal-title text-center" id="exampleModalLabel">Modificar tarjetas cargadas</h5>
+        
+        </div>
+
+        <form #modifUS="ngForm" (ngSubmit)= "ModificarUsuarios(modifUS.value)">
+            <div class="modal-body">
+                <input type="hidden" [(ngModel)]="usid"  class="form-control"required name="usmodif" id="usmodif">
+
+                <div class="mb-3">
+                    <label>Usuario</label>
+                    <input type="text" class="form-control" [(ngModel)]="usnam" required placeholder="Nombre de usuario" name="USmodifNAM" id="USmodifNAM">
+                </div>
+
+                <div class="mb-3">
+                    <label>Contraseña</label>
+                    <input type="password" class="form-control" [(ngModel)]="uspass" required placeholder="Contraseña" name="USpassMod" id="USpassMod">
+                </div>
+
+                <div class="mb-3">
+                    <label>Permiso</label>
+                    <select class="form-control" [(ngModel)]="uspermis" required name="permisUsCSMOD" ngModel id="permisUsCSMOD">
+                        <option value="" disabled selected>Permisos</option>
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
+                </div>
+
+            </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-warning">Modificar!</button>
+        </div>
+    </form>
+        </div>
+    </div>
+</div>
+
+                                            <! ––       Modal borrar            ––> 
+
+
+<div class="modal fade" id="ModalborrarUsuarios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+        <div class="modal-header">
+            <h5 class="modal-title text-center" id="exampleModalLabel">Borrar localidad</h5>
+        </div>
+        <label class="text-center">Seguro que quiere borrar?</label>
+        <form #borrarUsuario="ngForm"  (ngSubmit)= "borrarUsuarios(borrarUsuario.value)">
+            <div class="modal-body">
+               
+                <input type="hidden" class="form-control" [(ngModel)]="borrUS"  required  name="usborr" id="usborr">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+                <button type="submit" class="btn btn-danger">borrar!</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>                                            
